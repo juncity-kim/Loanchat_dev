@@ -85,6 +85,63 @@ class ChatResponse(BaseModel):
     trace_id: UUID = Field(default_factory=uuid4, description="트레이싱 식별자")
     meta: ChatMeta = Field(..., description="추가 메타 정보")
 
+    model_config = ConfigDict(
+        json_schema_extra={
+            "examples": [
+                {
+                    "result": {
+                        "intent": "informational",
+                        "payload": {
+                            "type": "informational",
+                            "content": {
+                                "answer": "대출 한도는 소득과 신용등급에 따라 달라집니다.",
+                                "sources": [
+                                    "https://example.com/loan-guidelines",
+                                    "https://example.com/credit-score",
+                                ],
+                            },
+                        },
+                    },
+                    "messages": [
+                        {
+                            "role": "assistant",
+                            "content": "정보형 답변을 생성했습니다.",
+                        }
+                    ],
+                    "trace_id": "ad7d1c28-6a2c-4a7b-86b7-5d7e65a9f6c3",
+                    "meta": {
+                        "mock": True,
+                        "generated_at": "2025-10-30T06:52:46.910280Z",
+                    },
+                },
+                {
+                    "result": {
+                        "intent": "calculational",
+                        "payload": {
+                            "type": "calculational",
+                            "content": {
+                                "result": 32500000,
+                                "currency": "KRW",
+                                "explanation": "월 상환 가능액과 금리를 기준으로 산출한 예상 대출 한도입니다.",
+                            },
+                        },
+                    },
+                    "messages": [
+                        {
+                            "role": "assistant",
+                            "content": "계산형 답변을 생성했습니다.",
+                        }
+                    ],
+                    "trace_id": "f2e5f9ab-e268-474c-8a65-3a621ecf3a4d",
+                    "meta": {
+                        "mock": True,
+                        "generated_at": "2025-10-30T06:53:10.123456Z",
+                    },
+                },
+            ]
+        }
+    )
+
 
 def build_mock_response(
     *,
