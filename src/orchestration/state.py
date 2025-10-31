@@ -1,5 +1,5 @@
 # orchestration/state.py
-# 최소 의존성: 표준 라이브러리만 사용 (pydantic 제거)
+# 공유 상태 모델 (표준 라이브러리만 사용)
 
 from dataclasses import dataclass, field
 from typing import Literal, TypedDict, List, Dict, Any, Optional
