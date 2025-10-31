@@ -1,26 +1,13 @@
 # orchestration/composer.py
-# 템플릿 파일이 없어도 동작하도록 폴백 포함
+# 템플릿을 이용해 최종 응답을 생성
 
 from pathlib import Path
 from jinja2 import Template
-from .state import OrchestrationState
+from orchestration.state import OrchestrationState
 
-# 폴더 위치가 바뀌어도 찾도록 후보 경로를 순회
-def _find_prompts_dir() -> Path:
-    here = Path(__file__).resolve()
-    candidates = [
-        here.parents[2] / "prompts",   # 프로젝트 루트/prompts (권장)
-        here.parents[1] / "prompts",   # src/prompts
-        here.parent / "prompts",       # orchestration/prompts
-    ]
-    for p in candidates:
-        if p.exists():
-            return p
-    return candidates[0]  # 없으면 루트 기준으로 반환(파일 없을 시 폴백 템플릿 사용)
+# prompts 디렉터리: 프로젝트 루트/ prompts 기준 (배포 안정)
+PROMPTS = Path(__file__).resolve().parents[2] / "prompts"
 
-PROMPTS = _find_prompts_dir()
-
-# 폴백 템플릿(파일 없을 때 사용)
 _FALLBACK = """\
 {% if mode == "calc" -%}
 계산 결과
